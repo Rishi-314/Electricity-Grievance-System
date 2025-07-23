@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Electricity Grievance System{% endblock %}
+{% block content %}
+<section class="py-5 bg-white">
+    <div class="container py-4">
+        <h2 class="fw-bold mb-4 text-center" style="color:#d40000;">Welcome, {{ user_name }}</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0 rounded-4 h-100">
+                    <div class="card-header bg-danger text-white rounded-top">
+                        <h5 class="mb-0">File a New Issue</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">This is a placeholder for the issue submission form.</p>
+                        <button class="btn btn-danger rounded-pill" disabled>File New Issue</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0 rounded-4 h-100">
+                    <div class="card-header bg-danger text-white rounded-top">
+                        <h5 class="mb-0">Issue History</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">This is a placeholder for the issue history display.</p>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3" class="text-center">No issues found</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

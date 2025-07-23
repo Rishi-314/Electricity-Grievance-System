@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Sign Up - Electricity Grievance System{% endblock %}
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0 rounded-4 p-4">
+                    <div class="card-body">
+                        <h2 class="mb-4 text-center fw-bold" style="color:#d40000;">Sign Up</h2>
+                        <form method="post">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Name</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" name="name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Email</label>
+                                    <input type="email" class="form-control form-control-lg rounded-pill" name="email" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Phone</label>
+                                    <input type="tel" class="form-control form-control-lg rounded-pill" name="phone" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Pincode</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" name="pincode" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">District</label>
+                                    <select class="form-select form-select-lg rounded-pill" name="district" id="district" required>
+                                        <option value="" selected disabled>Select District</option>
+                                        <option value="district1">Pune</option>
+                                        <option value="district2">Thane</option>
+                                        <option value="district3">Satara</option>
+                                        <option value="district4">Kolhapur</option>
+                                        <option value="district5">Sangli</option>
+                                        <option value="district6">Solapur</option>
+                                        <option value="district7">Nashik</option>
+                                        <option value="district8">Ahmednagar</option>
+                                        <option value="district9">Jalgaon</option>
+                                        <option value="district10">Aurangabad</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Zone</label>
+                                    <select class="form-select form-select-lg rounded-pill" name="zone" id="zone" required>
+                                        <option value="" selected disabled>Select Zone</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Password</label>
+                                <input type="password" class="form-control form-control-lg rounded-pill" name="password" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-danger btn-lg rounded-pill">Sign Up</button>
+                            </div>
+                        </form>
+                        <div class="mt-3 text-center">
+                            <small>Already have an account? <a href="{{ url_for('login') }}" class="text-danger fw-semibold">Login</a></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+document.getElementById('district').addEventListener('change', function() {
+    const district = this.value;
+    const zoneSelect = document.getElementById('zone');
+    zoneSelect.innerHTML = '<option value="" selected disabled>Select Zone</option>';
+    if (district) {
+        const zones = {
+            'district1': ['Pune City', 'Pune Rural', 'Baramati'],
+            'district2': ['Thane Urban', 'Thane Rural', 'Kalyan', 'Bhiwandi'],
+            'district3': ['Satara North', 'Satara South', 'Karad'],
+            'district4': ['Kolhapur City', 'Kolhapur Rural', 'Ichalkaranji'],
+            'district5': ['Sangli City', 'Miraj', 'Islampur'],
+            'district6': ['Solapur City', 'Solapur South', 'Akkalkot'],
+            'district7': ['Nashik City', 'Nashik Rural', 'Malegaon'],
+            'district8': ['Ahmednagar City', 'Shrirampur', 'Sangamner'],
+            'district9': ['Jalgaon City', 'Bhusawal', 'Chalisgaon'],
+            'district10': ['Aurangabad City', 'Paithan', 'Kannad']
+        };
+        zones[district].forEach(function(zone) {
+            const option = document.createElement('option');
+            option.value = zone;
+            option.textContent = zone;
+            zoneSelect.appendChild(option);
+        });
+    }
+});
+</script>
+{% endblock %}      

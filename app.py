@@ -4,14 +4,13 @@ import MySQLdb.cursors
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Change this to a random secret key
+import os
 
-# MySQL configuration
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'         # <-- CHANGE THIS
-app.config['MYSQL_PASSWORD'] = '2@@5Rish' # <-- CHANGE THIS
-app.config['MYSQL_DB'] = 'user'
-
+app.config['MYSQL_HOST'] = os.environ.get('127.0.0.1')
+app.config['MYSQL_USER'] = os.environ.get('root')
+app.config['MYSQL_PASSWORD'] = os.environ.get('2@@5Rish')
+app.config['MYSQL_DB'] = os.environ.get('user')
+app.secret_key = os.environ.get('SECRET_KEY', 'default_secret')
 mysql = MySQL(app)
 
 @app.route('/')

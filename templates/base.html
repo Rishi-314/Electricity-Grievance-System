@@ -8,22 +8,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Google Fonts for a modern look -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <div class="container mt-3">
-          {% for category, message in messages %}
-            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-              {{ message }}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    {% endwith %}
 <!-- Navigation with Logo -->
 <nav class="navbar navbar-expand-lg" style="background: #d40000c3; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
     <div class="container">
@@ -31,14 +20,45 @@
             <img src="{{ url_for('static', filename='logo.png') }}" alt="EGS Logo" height="44" class="d-inline-block align-top me-2" style="border-radius: 8px;">
             <span class="ms-1 align-middle" style="font-size: 1.25rem; letter-spacing: 1px;">EGS</span>
         </a>
+            
+            <!-- Right side navigation items -->
+            <ul class="navbar-nav">
+                {% if session.loggedin %}
+                {% if session.loggedin and request.endpoint != 'home' %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa fa-user-circle me-1"></i>{{ session.user_name }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        {% if session.loggedin %}
+                        <li><a class="dropdown-item" href="{{ url_for('profile') }}">Edit Profile</a></li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('signup') }}">Sign Up</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        
         <button class="navbar-toggler text-white border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
 </nav>
+
 <div class="container mt-4">
     {% block content %}{% endblock %}
 </div>
+
 <!-- Footer -->
 <footer class="py-5 bg-dark text-white mt-5">
     <div class="container">
@@ -80,6 +100,9 @@
         </div>
     </div>
 </footer>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Bootstrap Icons CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </body>

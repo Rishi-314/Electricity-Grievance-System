@@ -66,8 +66,67 @@ def login():
 @app.route('/dashboard')
 def dashboard():
     if 'loggedin' in session:
-        user_name = session['user_name']
-        return render_template('dashboard.html', user_name=user_name)
+        user_id = session['user_id']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM user_info WHERE user_id = %s', (user_id,))
+        user_info = cursor.fetchone()
+        user_name = user_info['name'] if user_info else session['user_name']
+        return render_template('dashboard.html', user_name=user_name, user_info=user_info)
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'loggedin' in session:
+        user_id = session['user_id']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM user_info WHERE user_id = %s', (user_id,))
+        user_info = cursor.fetchone()
+        if request.method == 'POST':
+            name = request.form['name']
+            email = request.form['email']
+            pincode = request.form['pincode']
+            district = request.form['district']
+            zone = request.form['zone']
+            cursor.execute('''
+                UPDATE user_info
+                SET name = %s, email_id = %s, pincode = %s, district = %s, zone = %s
+                WHERE user_id = %s
+            ''', (name, email, pincode, district, zone, user_id))
+            mysql.connection.commit()
+            flash('Profile updated successfully!', 'success')
+            session['user_name'] = name
+            return redirect(url_for('dashboard'))  # Changed from 'profile' to 'dashboard'
+        return render_template('profile.html', user_info=user_info)
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
+
+@app.route('/edit_profile', methods=['POST'])
+def edit_profile():
+    if 'loggedin' in session:
+        user_id = session['user_id']
+        name = request.form['name']
+        email = request.form['email']
+        pincode = request.form['pincode']
+        district = request.form['district']
+        zone = request.form['zone']
+        # Phone is readonly, not updated
+
+        cursor = mysql.connection.cursor()
+        cursor.execute('''
+            UPDATE user_info
+            SET name = %s, email_id = %s, pincode = %s, district = %s, zone = %s
+            WHERE user_id = %s
+        ''', (name, email, pincode, district, zone, user_id))
+        mysql.connection.commit()
+        flash('Profile updated successfully!', 'success')
+        session['user_name'] = name  # Update session name
+        return redirect(url_for('dashboard'))
     else:
         return redirect(url_for('login'))
 

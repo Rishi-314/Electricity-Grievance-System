@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Edit Profile - Electricity Grievance System{% endblock %}
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg border-0 rounded-4 p-4">
+                    <div class="card-body">
+                        <h2 class="mb-4 text-center fw-bold" style="color:#d40000;">Edit Profile</h2>
+                        <form method="post">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Name</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" name="name" value="{{ user_info.name }}" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Email</label>
+                                    <input type="email" class="form-control form-control-lg rounded-pill" name="email" value="{{ user_info.email_id }}" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Phone</label>
+                                    <input type="tel" class="form-control form-control-lg rounded-pill" name="phone" value="{{ user_info.phone }}" readonly>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Pincode</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" name="pincode" value="{{ user_info.pincode }}" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">District</label>
+                                    <select class="form-select form-select-lg rounded-pill" name="district" id="district" required>
+                                        <option value="" disabled>Select District</option>
+                                        <option value="Pune" {% if user_info.district == 'Pune' %}selected{% endif %}>Pune</option>
+                                        <option value="Thane" {% if user_info.district == 'Thane' %}selected{% endif %}>Thane</option>
+                                        <option value="Satara" {% if user_info.district == 'Satara' %}selected{% endif %}>Satara</option>
+                                        <option value="Kolhapur" {% if user_info.district == 'Kolhapur' %}selected{% endif %}>Kolhapur</option>
+                                        <option value="Sangli" {% if user_info.district == 'Sangli' %}selected{% endif %}>Sangli</option>
+                                        <option value="Solapur" {% if user_info.district == 'Solapur' %}selected{% endif %}>Solapur</option>
+                                        <option value="Nashik" {% if user_info.district == 'Nashik' %}selected{% endif %}>Nashik</option>
+                                        <option value="Ahmednagar" {% if user_info.district == 'Ahmednagar' %}selected{% endif %}>Ahmednagar</option>
+                                        <option value="Jalgaon" {% if user_info.district == 'Jalgaon' %}selected{% endif %}>Jalgaon</option>
+                                        <option value="Aurangabad" {% if user_info.district == 'Aurangabad' %}selected{% endif %}>Aurangabad</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Zone</label>
+                                    <select class="form-select form-select-lg rounded-pill" name="zone" id="zone" required>
+                                        <option value="" disabled>Select Zone</option>
+                                        <!-- The zone options will be filled by JS below -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-danger btn-lg rounded-pill">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+document.getElementById('district').addEventListener('change', function() {
+    const district = this.value;
+    const zoneSelect = document.getElementById('zone');
+    zoneSelect.innerHTML = '<option value="" disabled>Select Zone</option>';
+    if (district) {
+        const zones = {
+            'Pune': ['Pune City', 'Pune Rural', 'Baramati'],
+            'Thane': ['Thane Urban', 'Thane Rural', 'Kalyan', 'Bhiwandi'],
+            'Satara': ['Satara North', 'Satara South', 'Karad'],
+            'Kolhapur': ['Kolhapur City', 'Kolhapur Rural', 'Ichalkaranji'],
+            'Sangli': ['Sangli City', 'Miraj', 'Islampur'],
+            'Solapur': ['Solapur City', 'Solapur South', 'Akkalkot'],
+            'Nashik': ['Nashik City', 'Nashik Rural', 'Malegaon'],
+            'Ahmednagar': ['Ahmednagar City', 'Shrirampur', 'Sangamner'],
+            'Jalgaon': ['Jalgaon City', 'Bhusawal', 'Chalisgaon'],
+            'Aurangabad': ['Aurangabad City', 'Paithan', 'Kannad']
+        };
+        zones[district].forEach(function(zone) {
+            const option = document.createElement('option');
+            option.value = zone;
+            option.textContent = zone;
+            zoneSelect.appendChild(option);
+        });
+    }
+});
+
+// Pre-select the user's current zone if editing
+window.onload = function() {
+    const district = document.getElementById('district').value;
+    const zone = "{{ user_info.zone }}";
+    if (district && zone) {
+        const zoneSelect = document.getElementById('zone');
+        const zones = {
+            'Pune': ['Pune City', 'Pune Rural', 'Baramati'],
+            'Thane': ['Thane Urban', 'Thane Rural', 'Kalyan', 'Bhiwandi'],
+            'Satara': ['Satara North', 'Satara South', 'Karad'],
+            'Kolhapur': ['Kolhapur City', 'Kolhapur Rural', 'Ichalkaranji'],
+            'Sangli': ['Sangli City', 'Miraj', 'Islampur'],
+            'Solapur': ['Solapur City', 'Solapur South', 'Akkalkot'],
+            'Nashik': ['Nashik City', 'Nashik Rural', 'Malegaon'],
+            'Ahmednagar': ['Ahmednagar City', 'Shrirampur', 'Sangamner'],
+            'Jalgaon': ['Jalgaon City', 'Bhusawal', 'Chalisgaon'],
+            'Aurangabad': ['Aurangabad City', 'Paithan', 'Kannad']
+        };
+        if (zones[district]) {
+            zones[district].forEach(function(z) {
+                const option = document.createElement('option');
+                option.value = z;
+                option.textContent = z;
+                if (z === zone) option.selected = true;
+                zoneSelect.appendChild(option);
+            });
+        }
+    }
+};
+</script>
+{% endblock %}

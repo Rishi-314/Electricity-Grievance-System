@@ -15,48 +15,53 @@
                                     <input type="text" class="form-control form-control-lg rounded-pill" name="name" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-semibold">Email</label>
-                                    <input type="email" class="form-control form-control-lg rounded-pill" name="email" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
                                     <label class="form-label fw-semibold">Phone</label>
                                     <input type="tel" class="form-control form-control-lg rounded-pill" name="phone" required>
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-semibold">Pincode</label>
-                                    <input type="text" class="form-control form-control-lg rounded-pill" name="pincode" required>
+                                    <label class="form-label fw-semibold">Email</label>
+                                    <input type="email" class="form-control form-control-lg rounded-pill" name="email" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Password</label>
+                                    <input type="password" class="form-control form-control-lg rounded-pill" name="password" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-semibold">District</label>
-                                    <select class="form-select form-select-lg rounded-pill" name="district" id="district" required>
-                                        <option value="" selected disabled>Select District</option>
-                                        <option value="district1">Pune</option>
-                                        <option value="district2">Thane</option>
-                                        <option value="district3">Satara</option>
-                                        <option value="district4">Kolhapur</option>
-                                        <option value="district5">Sangli</option>
-                                        <option value="district6">Solapur</option>
-                                        <option value="district7">Nashik</option>
-                                        <option value="district8">Ahmednagar</option>
-                                        <option value="district9">Jalgaon</option>
-                                        <option value="district10">Aurangabad</option>
-                                    </select>
+                                    <label class="form-label fw-semibold">Address Line 1</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" name="address_line1">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label fw-semibold">Zone</label>
-                                    <select class="form-select form-select-lg rounded-pill" name="zone" id="zone" required>
-                                        <option value="" selected disabled>Select Zone</option>
-                                    </select>
+                                    <label class="form-label fw-semibold">Address Line 2</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" name="address_line2">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">City</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" name="city">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label fw-semibold">Pincode</label>
+                                    <input type="text" class="form-control form-control-lg rounded-pill" name="pincode">
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Password</label>
-                                <input type="password" class="form-control form-control-lg rounded-pill" name="password" required>
+                                <label class="form-label fw-semibold">Division</label>
+                                <select class="form-select form-select-lg rounded-pill" name="division_id">
+                                    <option value="" selected disabled>Select Division</option>
+                                    <option value="1">Division 1</option>
+                                    <option value="2">Division 2</option>
+                                    <option value="3">Division 3</option>
+                                    <option value="4">Division 4</option>
+                                    <option value="5">Division 5</option>
+                                    <!-- Add more divisions as needed -->
+                                </select>
                             </div>
+                            <!-- Hidden fields for verification, OTP, expiry (set by backend) -->
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-danger btn-lg rounded-pill">Sign Up</button>
                             </div>
@@ -70,31 +75,4 @@
         </div>
     </div>
 </section>
-<script>
-document.getElementById('district').addEventListener('change', function() {
-    const district = this.value;
-    const zoneSelect = document.getElementById('zone');
-    zoneSelect.innerHTML = '<option value="" selected disabled>Select Zone</option>';
-    if (district) {
-        const zones = {
-            'district1': ['Pune City', 'Pune Rural', 'Baramati'],
-            'district2': ['Thane Urban', 'Thane Rural', 'Kalyan', 'Bhiwandi'],
-            'district3': ['Satara North', 'Satara South', 'Karad'],
-            'district4': ['Kolhapur City', 'Kolhapur Rural', 'Ichalkaranji'],
-            'district5': ['Sangli City', 'Miraj', 'Islampur'],
-            'district6': ['Solapur City', 'Solapur South', 'Akkalkot'],
-            'district7': ['Nashik City', 'Nashik Rural', 'Malegaon'],
-            'district8': ['Ahmednagar City', 'Shrirampur', 'Sangamner'],
-            'district9': ['Jalgaon City', 'Bhusawal', 'Chalisgaon'],
-            'district10': ['Aurangabad City', 'Paithan', 'Kannad']
-        };
-        zones[district].forEach(function(zone) {
-            const option = document.createElement('option');
-            option.value = zone;
-            option.textContent = zone;
-            zoneSelect.appendChild(option);
-        });
-    }
-});
-</script>
-{% endblock %}      
+{% endblock %}

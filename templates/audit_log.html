@@ -1,0 +1,57 @@
+<!-- filepath: c:\Users\RISHIKESH\OneDrive\Desktop\EGS\Electricity-Grievance-System\templates\audit_log.html -->
+{% extends "base.html" %}
+{% block title %}Audit Log - Electricity Grievance System{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h2 class="fw-bold mb-4" style="color:#d40000;">User Audit Log</h2>
+    <form method="get" class="mb-4">
+        <div class="row g-2 align-items-center">
+            <div class="col-auto">
+                <select class="form-select" name="action_type">
+                    <option value="">All Actions</option>
+                    <option value="added" {% if request.args.get('action_type') == 'added' %}selected{% endif %}>Insert</option>
+                    <option value="updated" {% if request.args.get('action_type') == 'updated' %}selected{% endif %}>Update</option>
+                    <option value="deleted" {% if request.args.get('action_type') == 'deleted' %}selected{% endif %}>Delete</option>
+                </select>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-danger">Filter</button>
+            </div>
+        </div>
+        <input type="hidden" name="sort_by" value="{{ sort_by }}">
+        <input type="hidden" name="order" value="{{ order }}">
+    </form>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle">
+            <thead class="table-danger">
+                <tr>
+                    {% for col, label in [('audit_id', 'Audit ID'), ('user_id', 'User ID'), ('action', 'Action'), ('action_time', 'Action Time')] %}
+                    <th>
+                        <a href="?action_type={{ request.args.get('action_type', '') }}&sort_by={{ col }}&order={% if sort_by == col and order == 'asc' %}desc{% else %}asc{% endif %}" class="text-dark text-decoration-none">
+                            {{ label }}
+                            {% if sort_by == col %}
+                                <i class="bi bi-caret-{% if order == 'asc' %}up{% else %}down{% endif %}-fill"></i>
+                            {% endif %}
+                        </a>
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.audit_id }}</td>
+                    <td>{{ log.user_id }}</td>
+                    <td>{{ log.action }}</td>
+                    <td>{{ log.action_time }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">No logs found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

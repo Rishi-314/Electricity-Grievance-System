@@ -55,6 +55,7 @@ def login():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute('SELECT * FROM Users WHERE phone = %s', (phone,))
         user = cursor.fetchone()
+
         if user and check_password_hash(user['password'], password):
             session['loggedin'] = True
             session['user_id'] = user['user_id']
@@ -132,6 +133,13 @@ def edit_profile():
         return redirect(url_for('dashboard'))
     else:
         return redirect(url_for('login'))
+
+@app.route('/audit-log')
+def audit_log():
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute('SELECT * FROM user_log ORDER BY action_time DESC')
+    logs = cursor.fetchall()
+    return render_template('audit_log.html', logs=logs)
 
 if __name__ == '__main__':
     app.run(debug=True)
